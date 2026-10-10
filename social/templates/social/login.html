@@ -1,0 +1,46 @@
+{% extends 'social/base.html' %}
+{% load static %}
+
+{% block title %}Log In - SocialPulse{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <div style="font-size: 2.2rem; color: var(--primary-color); margin-bottom: 0.5rem;">
+            <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h2 class="auth-title">Welcome back</h2>
+        <p class="auth-subtitle">Log in to your SocialPulse account</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div style="background-color: #fee2e2; border: 1px solid #fca5a5; color: #dc2626; padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem; font-size: 0.88rem;">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label class="form-label" for="id_username">Username</label>
+            <input type="text" name="username" id="id_username" class="form-input" placeholder="Enter your username" required autofocus>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="id_password">Password</label>
+            <input type="password" name="password" id="id_password" class="form-input" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;">
+            Log In
+        </button>
+    </form>
+
+    <div class="auth-footer">
+        Don't have an account? <a href="{% url 'register' %}">Sign Up</a>
+    </div>
+</div>
+{% endblock %}

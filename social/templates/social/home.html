@@ -1,0 +1,153 @@
+{% extends 'social/base.html' %}
+{% load static %}
+
+{% block title %}Feed - SocialPulse{% endblock %}
+
+{% block content %}
+<div class="layout-grid">
+
+    <!-- Left Sidebar: Profile Summary -->
+    <aside class="sidebar-left">
+        <div class="sidebar-card sidebar-profile">
+            <a href="{% url 'profile' username=user.username %}">
+                <img src="{{ user.profile.avatar_url }}" alt="{{ user.username }}" class="sidebar-avatar">
+            </a>
+            <div class="sidebar-name">
+                <a href="{% url 'profile' username=user.username %}">
+                    {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}
+                </a>
+            </div>
+            <div class="sidebar-username">@{{ user.username }}</div>
+
+            {% if user.profile.bio %}
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.85rem; line-height: 1.4;">
+                {{ user.profile.bio|truncatechars:80 }}
+            </p>
+            {% endif %}
+
+            <div class="sidebar-stats">
+                <div class="stat-item">
+                    <div class="stat-value">{{ user.posts.count }}</div>
+                    <div class="stat-label">Posts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ user.followers_set.count }}</div>
+                    <div class="stat-label">Followers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ user.following_set.count }}</div>
+                    <div class="stat-label">Following</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <a href="{% url 'profile_edit' %}" class="btn btn-secondary btn-sm" style="width: 100%;">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit Profile
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Center Main Feed Column -->
+    <section class="main-feed">
+
+        <!-- Create Post Card -->
+        <div class="create-post-card">
+            <form action="{% url 'post_create' %}" method="POST" enctype="multipart/form-data" id="create-post-form">
+                {% csrf_token %}
+                <div class="create-post-header">
+                    <img src="{{ user.profile.avatar_url }}" alt="{{ user.username }}" class="post-avatar">
+                    <div class="create-post-body">
+                        {{ post_form.content }}
+                        
+                        <div class="image-preview-container" id="image-preview-container">
+                            <img src="" id="image-preview" alt="Preview">
+                            <button type="button" class="remove-preview-btn" id="remove-preview-btn" title="Remove image">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="create-post-footer">
+                    <div class="post-actions-left">
+                        <label for="post-image-input" class="post-upload-btn">
+                            <i class="fa-regular fa-image" style="font-size: 1.1rem;"></i>
+                            <span>Photo</span>
+                        </label>
+                        {{ post_form.image }}
+                        <span class="char-counter" id="char-counter">0/500</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-paper-plane"></i> Post
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Feed Filter Tabs -->
+        <div class="feed-tabs">
+            <a href="{% url 'home' %}?feed=following" class="tab-btn {% if feed_type == 'following' %}active{% endif %}">
+                <i class="fa-solid fa-user-group"></i> Following
+            </a>
+            <a href="{% url 'home' %}?feed=all" class="tab-btn {% if feed_type == 'all' %}active{% endif %}">
+                <i class="fa-solid fa-globe"></i> Global Feed
+            </a>
+        </div>
+
+        <!-- Posts List -->
+        <div class="posts-list">
+            {% for post in posts %}
+                {% include 'social/post_card.html' with post=post show_inline_comments=True %}
+            {% empty %}
+                <div class="sidebar-card" style="text-align: center; padding: 3rem 1.5rem;">
+                    <i class="fa-solid fa-comments" style="font-size: 3rem; color: var(--text-light); margin-bottom: 1rem;"></i>
+                    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">No posts found</h3>
+                    {% if feed_type == 'following' %}
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+                            You aren't following anyone yet or they haven't posted. Check out the Global Feed or Explore users!
+                        </p>
+                        <a href="{% url 'explore' %}" class="btn btn-primary btn-sm">Discover People</a>
+                    {% else %}
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">
+                            Be the first to share something with the community above!
+                        </p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Right Sidebar: Recommendations -->
+    <aside class="sidebar-right">
+        <div class="sidebar-card">
+            <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);">
+                <i class="fa-solid fa-user-plus" style="color: var(--primary-color);"></i> Who to follow
+            </h4>
+
+            {% for sug_user in suggested_users %}
+            <div class="user-item-row">
+                <div class="user-item-left">
+                    <a href="{% url 'profile' username=sug_user.username %}">
+                        <img src="{{ sug_user.profile.avatar_url }}" alt="{{ sug_user.username }}" class="comment-avatar">
+                    </a>
+                    <div style="line-height: 1.2;">
+                        <a href="{% url 'profile' username=sug_user.username %}" class="author-name" style="font-size: 0.85rem;">
+                            {% if sug_user.get_full_name %}{{ sug_user.get_full_name|truncatechars:16 }}{% else %}{{ sug_user.username }}{% endif %}
+                        </a>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">@{{ sug_user.username }}</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-sm btn-follow" data-url="{% url 'toggle_follow' username=sug_user.username %}">
+                    <span>Follow</span>
+                </button>
+            </div>
+            {% empty %}
+            <p style="font-size: 0.85rem; color: var(--text-muted);">No new suggestions right now.</p>
+            {% endfor %}
+        </div>
+    </aside>
+
+</div>
+{% endblock %}

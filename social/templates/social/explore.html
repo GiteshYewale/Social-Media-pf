@@ -1,0 +1,58 @@
+{% extends 'social/base.html' %}
+{% load static %}
+
+{% block title %}Explore People - SocialPulse{% endblock %}
+
+{% block content %}
+<div class="layout-grid single-column">
+
+    <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem;">Explore & Discover</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Find intriguing people to follow and grow your network.</p>
+    </div>
+
+    <!-- Search input inside explore -->
+    <div style="margin-bottom: 1.5rem;">
+        <form action="{% url 'explore' %}" method="GET" class="search-bar-form" style="max-width: 100%;">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="q" class="search-input" placeholder="Search people by name or username..." value="{{ query }}">
+            </div>
+        </form>
+    </div>
+
+    <!-- User Grid -->
+    <div class="user-grid">
+        {% for u in users %}
+        <div class="user-card">
+            <a href="{% url 'profile' username=u.username %}">
+                <img src="{{ u.profile.avatar_url }}" alt="{{ u.username }}" class="user-card-avatar">
+            </a>
+            <a href="{% url 'profile' username=u.username %}" class="user-card-name">
+                {% if u.get_full_name %}{{ u.get_full_name }}{% else %}{{ u.username }}{% endif %}
+            </a>
+            <div class="user-card-username">@{{ u.username }}</div>
+
+            <div class="user-card-bio">
+                {% if u.profile.bio %}{{ u.profile.bio }}{% else %}No bio provided.{% endif %}
+            </div>
+
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+                <strong>{{ u.followers_count_num }}</strong> followers
+            </div>
+
+            <button class="btn btn-primary btn-sm btn-follow {% if u.is_followed %}following{% endif %}" data-url="{% url 'toggle_follow' username=u.username %}">
+                <span>{% if u.is_followed %}Following{% else %}Follow{% endif %}</span>
+            </button>
+        </div>
+        {% empty %}
+        <div class="sidebar-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem;">
+            <i class="fa-solid fa-user-slash" style="font-size: 2.5rem; color: var(--text-light); margin-bottom: 1rem;"></i>
+            <h3 style="font-size: 1.1rem; font-weight: 700;">No users found</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Try searching for a different name or username.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

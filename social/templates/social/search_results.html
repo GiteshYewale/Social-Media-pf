@@ -1,0 +1,53 @@
+{% extends 'social/base.html' %}
+{% load static %}
+
+{% block title %}Search Results for "{{ query }}" - SocialPulse{% endblock %}
+
+{% block content %}
+<div class="layout-grid single-column">
+
+    <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.3rem;">Search Results</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Showing matches for "{{ query }}"</p>
+    </div>
+
+    <!-- Users Results Section -->
+    {% if users %}
+    <div style="margin-bottom: 2rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);">
+            <i class="fa-solid fa-users" style="color: var(--primary-color);"></i> People ({{ users|length }})
+        </h3>
+        <div class="user-grid">
+            {% for u in users %}
+            <div class="user-card" style="padding: 1rem;">
+                <a href="{% url 'profile' username=u.username %}">
+                    <img src="{{ u.profile.avatar_url }}" alt="{{ u.username }}" class="user-card-avatar" style="width: 60px; height: 60px;">
+                </a>
+                <a href="{% url 'profile' username=u.username %}" class="user-card-name">
+                    {% if u.get_full_name %}{{ u.get_full_name }}{% else %}{{ u.username }}{% endif %}
+                </a>
+                <div class="user-card-username">@{{ u.username }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Posts Results Section -->
+    <div>
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);">
+            <i class="fa-solid fa-newspaper" style="color: var(--primary-color);"></i> Posts ({{ posts|length }})
+        </h3>
+        <div class="posts-list">
+            {% for post in posts %}
+                {% include 'social/post_card.html' with post=post show_inline_comments=True %}
+            {% empty %}
+                <div class="sidebar-card" style="text-align: center; padding: 2.5rem 1.5rem;">
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">No posts matched your search criteria.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

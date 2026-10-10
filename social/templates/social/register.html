@@ -1,0 +1,42 @@
+{% extends 'social/base.html' %}
+{% load static %}
+
+{% block title %}Create Account - SocialPulse{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <div style="font-size: 2.2rem; color: var(--primary-color); margin-bottom: 0.5rem;">
+            <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h2 class="auth-title">Join SocialPulse</h2>
+        <p class="auth-subtitle">Connect with friends and share your story</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="form-group">
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <div style="color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem;">
+                {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.75rem;">
+            Create Account
+        </button>
+    </form>
+
+    <div class="auth-footer">
+        Already have an account? <a href="{% url 'login' %}">Log In</a>
+    </div>
+</div>
+{% endblock %}
