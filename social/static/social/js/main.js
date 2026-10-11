@@ -21,15 +21,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const csrftoken = getCookie('csrftoken');
 
-    // Toast notification auto dismiss
+    /* ---------------- Theme toggle (dark mode) ---------------- */
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        const applyThemeIcon = () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const icon = themeToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-moon', !isDark);
+                icon.classList.toggle('fa-sun', isDark);
+            }
+            themeToggle.setAttribute('aria-pressed', String(isDark));
+        };
+
+        applyThemeIcon();
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const next = isDark ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            try { localStorage.setItem('sp-theme', next); } catch (e) {}
+            applyThemeIcon();
+        });
+    }
+
+    /* ---------------- Mobile navigation menu ---------------- */
+    const navToggle = document.getElementById('nav-toggle');
+    const primaryMenu = document.getElementById('primary-menu');
+    if (navToggle && primaryMenu) {
+        navToggle.addEventListener('click', () => {
+            const isOpen = primaryMenu.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+            const icon = navToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars', !isOpen);
+                icon.classList.toggle('fa-xmark', isOpen);
+            }
+        });
+    }
+
+    /* ---------------- Toast notification auto dismiss ---------------- */
     const toasts = document.querySelectorAll('.toast');
     toasts.forEach(toast => {
-        setTimeout(() => {
+        toast.style.cursor = 'pointer';
+        toast.setAttribute('title', 'Dismiss');
+        const dismiss = () => {
             toast.style.opacity = '0';
             toast.style.transform = 'translateY(10px)';
             toast.style.transition = 'all 0.3s ease';
             setTimeout(() => toast.remove(), 300);
-        }, 4000);
+        };
+        toast.addEventListener('click', dismiss);
+        setTimeout(dismiss, 4000);
     });
 
     // Post Character Counter & Image Preview
@@ -82,6 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const url = likeBtn.dataset.url;
             if (!url) return;
 
+            likeBtn.classList.add('is-loading');
+
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -107,7 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     countSpan.textContent = data.likes_count;
                 }
             })
-            .catch(err => console.error('Error toggling like:', err));
+            .catch(err => console.error('Error toggling like:', err))
+            .finally(() => likeBtn.classList.remove('is-loading'));
         }
     });
 
@@ -118,6 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const url = followBtn.dataset.url;
             if (!url) return;
+
+            followBtn.classList.add('is-loading');
 
             fetch(url, {
                 method: 'POST',
@@ -148,7 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     followerCountEl.textContent = data.followers_count;
                 }
             })
-            .catch(err => console.error('Error toggling follow:', err));
+            .catch(err => console.error('Error toggling follow:', err))
+            .finally(() => followBtn.classList.remove('is-loading'));
         }
     });
 

@@ -1,0 +1,49 @@
+Watching for file changes with StatReloader
+[11/Oct/2026 09:51:00] "GET /login/ HTTP/1.1" 200 4659
+[11/Oct/2026 09:51:01] "GET /static/social/css/styles.css HTTP/1.1" 200 40593
+[11/Oct/2026 09:51:01] "GET /static/social/js/main.js HTTP/1.1" 200 11938
+[11/Oct/2026 09:51:01,194] - Broken pipe from ('127.0.0.1', 63944)
+[11/Oct/2026 09:51:54] "GET / HTTP/1.1" 302 0
+[11/Oct/2026 09:51:54] "GET /login/?next=/ HTTP/1.1" 200 4659
+[11/Oct/2026 09:51:54,120] - Broken pipe from ('127.0.0.1', 51474)
+[11/Oct/2026 09:52:42] "GET / HTTP/1.1" 302 0
+[11/Oct/2026 09:52:42] "GET /login/?next=/ HTTP/1.1" 200 4659
+[11/Oct/2026 09:52:51] "GET /login/?next=/ HTTP/1.1" 200 4659
+[11/Oct/2026 09:52:56] "GET /register/ HTTP/1.1" 200 5904
+[11/Oct/2026 09:59:11] "GET / HTTP/1.1" 302 0
+[11/Oct/2026 09:59:11] "GET /login/?next=/ HTTP/1.1" 200 4592
+[11/Oct/2026 09:59:11,881] - Broken pipe from ('127.0.0.1', 63792)
+[11/Oct/2026 09:59:21] "GET / HTTP/1.1" 302 0
+[11/Oct/2026 09:59:21] "GET /login/?next=/ HTTP/1.1" 200 4592
+[11/Oct/2026 09:59:27] "GET /register/ HTTP/1.1" 200 5837
+[11/Oct/2026 10:03:40] "GET /register/ HTTP/1.1" 200 5856
+[11/Oct/2026 10:04:23] "GET /register/ HTTP/1.1" 200 5856
+[11/Oct/2026 10:06:47] "POST /register/ HTTP/1.1" 302 0
+[11/Oct/2026 10:06:47] "GET /profile/edit/ HTTP/1.1" 200 9612
+[11/Oct/2026 10:10:28] "GET / HTTP/1.1" 302 0
+[11/Oct/2026 10:10:28] "GET /login/?next=/ HTTP/1.1" 200 4528
+[11/Oct/2026 10:10:28,516] - Broken pipe from ('127.0.0.1', 63125)
+[11/Oct/2026 10:11:09] "GET / HTTP/1.1" 200 14673
+[11/Oct/2026 10:11:50] "GET /explore/ HTTP/1.1" 200 14691
+[11/Oct/2026 10:12:02] "GET / HTTP/1.1" 200 14673
+[11/Oct/2026 10:12:05] "GET /?feed=all HTTP/1.1" 200 30945
+[11/Oct/2026 10:12:11] "GET /?feed=following HTTP/1.1" 200 14673
+[11/Oct/2026 10:12:32] "GET /?feed=all HTTP/1.1" 200 30945
+[11/Oct/2026 10:12:37] "GET /?feed=following HTTP/1.1" 200 14673
+[11/Oct/2026 10:19:31] "GET /static/social/css/styles.css HTTP/1.1" 200 40954
+[11/Oct/2026 10:19:31,590] - Broken pipe from ('127.0.0.1', 49740)
+[11/Oct/2026 10:19:40] "GET / HTTP/1.1" 302 0
+[11/Oct/2026 10:19:40] "GET /login/?next=/ HTTP/1.1" 200 4528
+[11/Oct/2026 10:19:40] "GET /login/ HTTP/1.1" 200 4528
+[11/Oct/2026 10:19:40] "GET /register/ HTTP/1.1" 200 5773
+[11/Oct/2026 10:19:40,613] - Broken pipe from ('127.0.0.1', 49742)
+[11/Oct/2026 10:20:47] "GET /?feed=following HTTP/1.1" 200 14673
+[11/Oct/2026 10:21:21] "GET / HTTP/1.1" 302 0
+[11/Oct/2026 10:21:21] "GET /login/?next=/ HTTP/1.1" 200 4528
+[11/Oct/2026 10:21:22] "GET /static/social/css/styles.css HTTP/1.1" 200 40954
+[11/Oct/2026 10:21:22] "GET /static/social/js/main.js HTTP/1.1" 200 11938
+[11/Oct/2026 10:22:01] "GET /login/?next=/ HTTP/1.1" 200 4528
+[11/Oct/2026 10:22:02] "GET /static/social/css/styles.css HTTP/1.1" 304 0
+[11/Oct/2026 10:22:27] "GET /login/?next=/ HTTP/1.1" 200 4528
+[11/Oct/2026 10:22:27] "GET /static/social/css/styles.css HTTP/1.1" 304 0
+[11/Oct/2026 10:32:46] "GET /?feed=all HTTP/1.1" 200 30945

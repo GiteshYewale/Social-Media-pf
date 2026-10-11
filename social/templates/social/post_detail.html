@@ -31,8 +31,8 @@
             </div>
 
             {% if user == post.author %}
-            <a href="{% url 'post_delete' pk=post.id %}" class="post-action-btn delete-btn" title="Delete post" onclick="return confirm('Are you sure you want to delete this post?');">
-                <i class="fa-solid fa-trash-can"></i>
+            <a href="{% url 'post_delete' pk=post.id %}" class="post-action-btn delete-btn" title="Delete post" aria-label="Delete post" onclick="return confirm('Are you sure you want to delete this post?');">
+                <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
             </a>
             {% endif %}
         </div>
@@ -48,8 +48,8 @@
         {% endif %}
 
         <div class="post-card-footer">
-            <button class="post-action-btn like-btn {% if is_liked %}liked{% endif %}" data-url="{% url 'toggle_like' pk=post.id %}">
-                <i class="{% if is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
+            <button class="post-action-btn like-btn {% if is_liked %}liked{% endif %}" data-url="{% url 'toggle_like' pk=post.id %}" aria-label="Like post">
+                <i class="{% if is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart" aria-hidden="true"></i>
                 <span class="like-count">{{ post.likes_count }}</span>
             </button>
 
@@ -69,7 +69,7 @@
                 {% csrf_token %}
                 <img src="{{ user.profile.avatar_url }}" class="comment-avatar" alt="{{ user.username }}">
                 <input type="text" name="content" class="comment-input" placeholder="Write a thoughtful comment..." required autocomplete="off">
-                <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane"></i></button>
+                <button type="submit" class="btn btn-primary btn-sm" aria-label="Post comment"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
             </form>
 
             <div class="comments-list" id="comments-list-main">
@@ -82,8 +82,8 @@
                             <div>
                                 <span class="comment-time">{{ comment.created_at|date:"M d, Y, g:i a" }}</span>
                                 {% if user == comment.author or user == post.author %}
-                                <button class="comment-del-btn ajax-del-comment" data-url="{% url 'comment_delete' pk=comment.id %}" title="Delete comment">
-                                    <i class="fa-solid fa-trash-can"></i>
+                                <button class="comment-del-btn ajax-del-comment" data-url="{% url 'comment_delete' pk=comment.id %}" title="Delete comment" aria-label="Delete comment">
+                                    <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
                                 </button>
                                 {% endif %}
                             </div>

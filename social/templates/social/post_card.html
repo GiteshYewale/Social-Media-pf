@@ -17,8 +17,8 @@
         </div>
 
         {% if user == post.author %}
-        <a href="{% url 'post_delete' pk=post.id %}" class="post-action-btn delete-btn" title="Delete post" onclick="return confirm('Are you sure you want to delete this post?');">
-            <i class="fa-solid fa-trash-can"></i>
+        <a href="{% url 'post_delete' pk=post.id %}" class="post-action-btn delete-btn" title="Delete post" aria-label="Delete post" onclick="return confirm('Are you sure you want to delete this post?');">
+            <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
         </a>
         {% endif %}
     </div>
@@ -36,18 +36,18 @@
     {% endif %}
 
     <div class="post-card-footer">
-        <button class="post-action-btn like-btn {% if post.is_liked %}liked{% endif %}" data-url="{% url 'toggle_like' pk=post.id %}">
-            <i class="{% if post.is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
+        <button class="post-action-btn like-btn {% if post.is_liked %}liked{% endif %}" data-url="{% url 'toggle_like' pk=post.id %}" aria-label="Like post">
+            <i class="{% if post.is_liked %}fa-solid{% else %}fa-regular{% endif %} fa-heart" aria-hidden="true"></i>
             <span class="like-count">{{ post.likes_count }}</span>
         </button>
 
-        <a href="{% url 'post_detail' pk=post.id %}" class="post-action-btn">
-            <i class="fa-regular fa-comment"></i>
+        <a href="{% url 'post_detail' pk=post.id %}" class="post-action-btn" aria-label="View comments">
+            <i class="fa-regular fa-comment" aria-hidden="true"></i>
             <span class="comments-count-num" id="comment-count-{{ post.id }}">{{ post.comments_count }}</span>
         </a>
 
-        <a href="{% url 'post_detail' pk=post.id %}" class="post-action-btn" title="View details">
-            <i class="fa-solid fa-arrow-right-long"></i>
+        <a href="{% url 'post_detail' pk=post.id %}" class="post-action-btn" title="View details" aria-label="View post details">
+            <i class="fa-solid fa-arrow-right-long" aria-hidden="true"></i>
         </a>
     </div>
 
@@ -58,7 +58,7 @@
             {% csrf_token %}
             <img src="{{ user.profile.avatar_url }}" class="comment-avatar" alt="{{ user.username }}">
             <input type="text" name="content" class="comment-input" placeholder="Write a comment..." required autocomplete="off">
-            <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-paper-plane"></i></button>
+            <button type="submit" class="btn btn-primary btn-sm" aria-label="Post comment"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i></button>
         </form>
 
         <div class="comments-list" id="comments-list-{{ post.id }}">
@@ -71,9 +71,9 @@
                         <div>
                             <span class="comment-time">{{ comment.created_at|date:"M d, g:i a" }}</span>
                             {% if user == comment.author or user == post.author %}
-                            <button class="comment-del-btn ajax-del-comment" data-url="{% url 'comment_delete' pk=comment.id %}" title="Delete comment">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
+                <button class="comment-del-btn ajax-del-comment" data-url="{% url 'comment_delete' pk=comment.id %}" title="Delete comment" aria-label="Delete comment">
+                                    <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+                                </button>
                             {% endif %}
                         </div>
                     </div>
